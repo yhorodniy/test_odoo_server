@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <!-- Action -->
+        <record id="action_estate_property" model="ir.actions.act_window">
+            <field name="name">Estate</field>
+            <field name="res_model">estate.property</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_estate_property_types" model="ir.actions.act_window">
+            <field name="name">Property Types</field>
+            <field name="res_model">estate.property.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu Item --> 
+        <menuitem id="menu_estate" name="Estate" />
+        <menuitem id="menu_estate_property" name="Advertisements" parent="menu_estate" action="action_estate_property" />
+        <menuitem id="menu_estate_property_advertisements" name="Properties" parent="menu_estate_property" action="action_estate_property" />
+
+        <menuitem id="menu_estate_settings" name="Settings" parent="menu_estate" action="action_estate_property_types"  />
+        <menuitem id="menu_estate_settings_property_types" name="Property types" parent="menu_estate_settings" action="action_estate_property_types" />
+    </data>
+</odoo>

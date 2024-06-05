@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_estate_property_tree" model="ir.ui.view">
+            <field name="name">estate.property.tree</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <tree string="Estate Properties">
+                    <field name="name"/>
+                    <field name="postcode"/>
+                    <field name="bedrooms"/>
+                    <field name="living_area"/>
+                    <field name="expected_price"/>
+                    <field name="selling_price"/>
+                    <field name="date_availability"/>
+                    <field name="tag_ids" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_estate_property_form" model="ir.ui.view">
+            <field name="name">estate.property.form</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <form string="Test">
+                    <header>
+                        <button name="set_is_sold" type="object" string="Sold" />
+                        <button name="set_is_cancel" type="object" string="Cancel" />
+                    </header>
+                    <sheet>
+                        <group style="
+                            display: flex;
+                            flex-direction: column;
+                        ">
+                            <div>
+                                <h1 class="mb32"> <field name="name" class="mb16"/> </h1>
+                                <field name="tag_ids" widget="many2many_tags" />
+                                <div style="
+                                    display:flex;
+                                ">
+                                    <div>
+                                        <group> <field name="state"/> </group>
+                                        <group> <field name="postcode"/> </group>
+                                        <group> <field name="date_availability"/> </group>
+                                    </div>
+                                    <div>
+                                        <group> <field name="expected_price"/> </group>
+                                        <group> <field name="best_price"/> </group>
+                                        <group> <field name="selling_price"/> </group>
+                                    </div>
+                                </div>
+                            </div>
+                            <notebook>
+                                <page string="Description">
+                                    <div>
+                                        <group> <field name="description"/> </group>
+                                        <group> <field name="bedrooms"/> </group>
+                                        <group> <field name="living_area"/> </group>
+                                        <group> <field name="facades"/> </group>
+                                        <group> <field name="garage"/> </group>
+                                        <group> <field name="garden"/> </group>
+                                        <group> <field name="garden_area"/> </group>
+                                        <group> <field name="garden_orientation"/> </group>
+                                        <group> <field name="total_area"/> </group>
+                                    </div>
+                                </page>
+                                <page string="Offers">
+                                    <field name="offer_ids">
+                                        <tree>
+                                            <field name="price" />
+                                            <field name="partner_id" />
+                                            <field name="validity" />
+                                            <field name="date_deadline" />
+                                            <button name="action_accept" type="object" icon="fa-check" />
+                                            <button name="action_refuse" type="object" icon="fa-times" />
+                                            <field name="status" />
+                                        </tree>
+                                    </field>    
+                                </page>
+                                <page string="Other Info">
+                                    <div>
+                                        <group>
+                                            <field name="buyer_id"/>
+                                            <field name="salesperson_id"/>
+                                        </group>
+                                    </div>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
