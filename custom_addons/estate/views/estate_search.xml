@@ -4,18 +4,19 @@
             <field name="name">estate.property.search</field>
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
-                <search string="Tests">
-                    <field name="name"/>
-                    <field name="postcode"/>
-                    <field name="expected_price"/>
-                    <field name="bedrooms"/>
-                    <field name="living_area"/>
-                    <field name="facades"/>
+                <search string="Estate Property">
+                    <field name="name" />
+                    <field name="postcode" />
+                    <field name="expected_price" />
+                    <field name="bedrooms" />
+                    <field name="living_area" string="Living Area (sqm)" filter_domain="[('living_area', '>=', self)]" />
+                    <field name="facades" />
                     <separator/>
                     <filter string="New" name="new" domain="[('state', '=', 'new')]"/>
-                    <filter string="Offer received" name="offer_received" domain="[('state', '=', 'offer_received')]"/>
+                    <filter string="Offer received" name="offer_received" domain="[('state', '=', 'offer_received')]" />
+                    <filter string="Available" name="available" domain="[('state', 'in', ['new', 'offer_received'])]" />
                     <group expand="1" string="Group By">
-                        <filter string="Status" name="state" context="{'group_by':'state'}"/>
+                        <filter string="Status" name="state" context="{'group_by':'state'}" />
                     </group>
                 </search>
             </field>

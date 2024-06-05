@@ -15,7 +15,7 @@
         	"args":[
 				"-c","${workspaceRoot}/conf/odoo.conf",
 				"-u", "estate",
-				"--dev", "xml"
+				// "--dev", "xml"
         	],
         	"cwd": "${workspaceRoot}"
     	}
