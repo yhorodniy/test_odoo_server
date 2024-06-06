@@ -1,12 +1,12 @@
 <odoo>
     <data>
         <!-- Action -->
-        <record id='action_estate_property' model='ir.actions.act_window'>
-            <field name='name'>Estate</field>
-            <field name='res_model'>estate.property</field>
-            <field name='view_mode'>tree,form</field>
-            <field name='search_view_id' ref='estate.view_estate_property_search'/>
-            <field name='context'>{'search_default_available': 1}</field>
+        <record id="action_estate_property" model="ir.actions.act_window">
+            <field name="name">Estate</field>
+            <field name="res_model">estate.property</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="estate.view_estate_property_search"/>
+            <field name="context">{'search_default_available': 1}</field>
         </record>
         <record id='action_estate_property_types' model='ir.actions.act_window'>
             <field name='name'>Property Types</field>
@@ -17,7 +17,7 @@
             <field name='name'>Property Offer</field>
             <field name='res_model'>estate.property.offer</field>
             <field name='view_mode'>tree,form</field>
-            <field name='domain'>[('property_type_id', '=', active_id)]</field>
+            <field name="context">{'default_property_type_id': active_id}</field>
         </record>
         <record id='estate_property_tag_action' model='ir.actions.act_window'>
             <field name='name'>Property Tags</field>

@@ -15,7 +15,7 @@ class EstateProperty(models.Model):
             'move_type': 'out_invoice',
             'invoice_line_ids': [
                 Command.create({
-                    'name': 'Selling Price - 6% Fee',
+                    'name': '6% of Selling Price',
                     'quantity': 1,
                     'price_unit': percent_of_selling_price,
                 }),

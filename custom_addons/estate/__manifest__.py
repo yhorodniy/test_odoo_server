@@ -12,6 +12,7 @@
         'views/estate_property_offer_views.xml',
         'views/estate_user_view.xml',
         'views/estate_menu.xml',
+        'views/estate_property_kanban.xml',
     ],
     'application': True,
 }
