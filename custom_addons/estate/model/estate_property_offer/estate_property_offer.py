@@ -1,29 +1,24 @@
 from datetime import datetime, timedelta
 from odoo import api, exceptions, fields, models
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 
 class EstatePropertyTag(models.Model):
     _name = 'estate.property.offer'
-    _description = "Estate Property Offer"
+    _description = 'Estate Property Offer'
 
 
-    price = fields.Float(
-        string="Price",
-        constraint=[
-            'check_price_positive',
-            'CHECK(price > 0)',
-            'Expected price should be strictly positive'
-        ]
-    )
+    price = fields.Float(string='Price')
     status = fields.Selection(
-        string="Status",
-        selection=[("accepted", "Accepted"), ("refused", "Refused")],
+        string='Status',
+        selection=[('accepted', 'Accepted'), ('refused', 'Refused')],
         copy=False
     )
-    partner_id = fields.Many2one("res.partner", string="Partner", required=True)
-    property_id = fields.Many2one("estate.property", string="Property", required=True)
-    validity = fields.Integer(string="Validity (days)", default=7)
-    date_deadline = fields.Date(string="Deadline", compute='_compute_date_deadline', inverse='_inverse_date_deadline', store=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', required=True)
+    property_id = fields.Many2one('estate.property', string='Property', required=True)
+    property_type_id = fields.Many2one('estate.property.type', string='Property Type', )
+    validity = fields.Integer(string='Validity (days)', default=7)
+    date_deadline = fields.Date(string='Deadline', compute='_compute_date_deadline', inverse='_inverse_date_deadline', store=True)
 
     _sql_constraints = [
         ('check_price', 'CHECK(price > 0)', 'Price should be only pisitive')
@@ -44,18 +39,21 @@ class EstatePropertyTag(models.Model):
     def action_accept(self):
         self.ensure_one()
         property = self.property_id
-        print('*'*50)
-        print(property.state)
-        if property.state == "offer_received":
+        if property.state == 'offer_received':
             raise exceptions.UserError('Неможливо прийняти пропозицію, зі статусом "Отримано пропозицію"')
-        property.state = "offer_accepted"
+
+        max_sell_price = property.expected_price
+        sell_prise = self.price
+        if (float_compare(sell_prise, max_sell_price * 0.9, precision_digits=2) == -1):
+            raise exceptions.UserError('Неможливо прийняти пропозицію, оскільки ціна нижча за очікувану')
+        property.state = 'offer_accepted'
         property.buyer_id = self.partner_id
-        property.selling_price = self.price
-        self.status = "accepted"
+        property.selling_price = sell_prise
+        self.status = 'accepted'
 
     def action_refuse(self):
         self.ensure_one()
         property = self.property_id
-        if property.state == "offer_received":
+        if property.state == 'offer_received':
             raise exceptions.UserError('Неможливо відхилити пропозицію, зі статусом "Отримано пропозицію"')
-        self.status = "refused"
+        self.status = 'refused'

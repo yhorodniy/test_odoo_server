@@ -6,15 +6,21 @@
             <field name="name">estate.property.tree</field>
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
-                <tree string="Estate Properties">
-                    <field name="name"/>
-                    <field name="postcode"/>
-                    <field name="bedrooms"/>
-                    <field name="living_area"/>
-                    <field name="expected_price"/>
-                    <field name="selling_price"/>
-                    <field name="date_availability"/>
-                    <field name="tag_ids" />
+                <tree
+                    string="Estate Properties"
+                    decoration-success="state in ['offer_received', 'offer_accepted']"
+                    decoration-bf="state in ['offer_accepted']"
+                    decoration-muted="state in ['sold']"    
+                >
+                    <field name="name" string="Title" />
+                    <field name="postcode" string="Postcode" />
+                    <field name="bedrooms" string="Bedrooms" />
+                    <field name="living_area" string="Living Area (sqm)" />
+                    <field name="expected_price" string="Expected Price" />
+                    <field name="selling_price" string="Selling Price" />
+                    <field name="date_availability" string="Availability Date" optional="hide"/>
+                    <field name="tag_ids" string="Tags" />
+                    <field name="state" string="Status" />
                 </tree>
             </field>
         </record>
@@ -26,8 +32,11 @@
             <field name="arch" type="xml">
                 <form string="Test">
                     <header>
-                        <button name="set_is_sold" type="object" string="Sold" />
-                        <button name="set_is_cancel" type="object" string="Cancel" />
+                        <div invisible="state in ['sold', 'canceled']" style="display: flex; gap: 20px;">
+                            <button name="set_is_sold" type="object" string="Sold" />
+                            <button name="set_is_cancel" type="object" string="Cancel" />
+                        </div>
+                        <field name="state" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold,canceled" />
                     </header>
                     <sheet>
                         <group style="
@@ -36,7 +45,8 @@
                         ">
                             <div>
                                 <h1 class="mb32"> <field name="name" class="mb16"/> </h1>
-                                <field name="tag_ids" widget="many2many_tags" />
+                                <field name="tag_ids" widget="many2many_tags" options='{"color_field": "color"}' />
+                                <group> <field name="property_type_ids" options='{"no_create_edit": true, "no_create": true}' /> </group> 
                                 <div style="
                                     display:flex;
                                 ">
@@ -61,21 +71,27 @@
                                         <group> <field name="facades"/> </group>
                                         <group> <field name="garage"/> </group>
                                         <group> <field name="garden"/> </group>
-                                        <group> <field name="garden_area"/> </group>
-                                        <group> <field name="garden_orientation"/> </group>
+                                        <group invisible="not garden"> <field name="garden_area"/> </group>
+                                        <group invisible="not garden"> <field name="garden_orientation"/> </group>
                                         <group> <field name="total_area"/> </group>
                                     </div>
                                 </page>
                                 <page string="Offers">
-                                    <field name="offer_ids">
-                                        <tree>
+                                    <field name="offer_ids" readonly="state in ['offer_accepted', 'sold', 'canceled']">
+                                        <tree
+                                            default_order="price desc"
+                                            editable="bottom"
+                                            decoration-success="status in ['accepted']"
+                                            decoration-danger="status in ['refused']"
+                                        >
+                                            <field name="property_id" />
                                             <field name="price" />
                                             <field name="partner_id" />
                                             <field name="validity" />
                                             <field name="date_deadline" />
-                                            <button name="action_accept" type="object" icon="fa-check" />
-                                            <button name="action_refuse" type="object" icon="fa-times" />
-                                            <field name="status" />
+                                            <button name="action_accept" type="object" icon="fa-check" invisible="status" />
+                                            <button name="action_refuse" type="object" icon="fa-times" invisible="status" />
+                                            <field name="status" invisible="1" />
                                         </tree>
                                     </field>    
                                 </page>

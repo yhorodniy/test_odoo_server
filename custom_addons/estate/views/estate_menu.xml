@@ -5,10 +5,22 @@
             <field name="name">Estate</field>
             <field name="res_model">estate.property</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="estate.view_estate_property_search"/>
+            <field name="context">{'search_default_available': 1}</field>
         </record>
         <record id="action_estate_property_types" model="ir.actions.act_window">
             <field name="name">Property Types</field>
-            <field name="res_model">estate.property.type</field>
+            <field name="res_model">estate.property.types</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_estate_property_offer" model="ir.actions.act_window">
+            <field name="name">Property Offer</field>
+            <field name="res_model">estate.property.offer</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="estate_property_tag_action" model="ir.actions.act_window">
+            <field name="name">Property Tags</field>
+            <field name="res_model">estate.property.tag</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -19,5 +31,6 @@
 
         <menuitem id="menu_estate_settings" name="Settings" parent="menu_estate" action="action_estate_property_types"  />
         <menuitem id="menu_estate_settings_property_types" name="Property types" parent="menu_estate_settings" action="action_estate_property_types" />
+        <menuitem id="menu_estate_settings_property_offer" name="Property Offer" parent="menu_estate_settings" action="action_estate_property_offer" />
     </data>
 </odoo>
