@@ -14,7 +14,7 @@
         	"program": "${workspaceRoot}/odoo/odoo-bin",
         	"args":[
 				"-c","${workspaceRoot}/conf/odoo.conf",
-				"-u", "estate",
+				"-u", "estate_account",
         	],
         	"cwd": "${workspaceRoot}"
     	}
